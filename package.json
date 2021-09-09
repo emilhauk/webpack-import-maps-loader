@@ -1,11 +1,12 @@
 {
   "name": "webpack-import-maps-loader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Webpack loader for import maps",
   "type": "module",
   "main": "./src/loader.cjs",
   "files": [
-    "package.json"
+    "package.json",
+    "src/loader.cjs"
   ],
   "scripts": {
     "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
