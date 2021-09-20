@@ -36,8 +36,8 @@ Or loaded as a file:
 ```js
 // import-map.json
 {
-  imports: {
-    "bare-import": "https://assets.domain.tld/bare-import/index.js",
+  "imports": {
+    "bare-import": "https://assets.domain.tld/bare-import/index.js"
   }
 }
 

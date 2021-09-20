@@ -1,7 +1,11 @@
 const searchAndReplaceRules = (key, value) => [
   {
     regexp: new RegExp(`^\\s*import\\s+(.+?)\\s+from\\s+['"]${key}.+$`, 'm'),
-    string: `const $1 = __non_webpack_require__('${value}');`,
+    string: `import $1 from /* webpackIgnore: true */ '${value}';`,
+  },
+  {
+    regexp: new RegExp(`^\\s*const\\s+(.+?)\\s+=\\s+require\\(\\s+['"]${key}.+$`, 'm'),
+    string: `import $1 from /* webpackIgnore: true */ '${value}';`,
   },
   {
     regexp: new RegExp(`import\\(['"]${key}['"]\\)`),
