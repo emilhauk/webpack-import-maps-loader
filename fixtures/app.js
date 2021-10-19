@@ -1,4 +1,3 @@
-import { logout } from 'user';
 import { util1, util2 } from './common.js';
 
 export default class App {
@@ -8,6 +7,6 @@ export default class App {
   }
 
   onLogout(redirectUrl = '/') {
-    logout(redirectUrl);
+    import('user').then(({logout}) => logout(redirectUrl));
   }
 }

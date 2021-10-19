@@ -14,10 +14,29 @@ describe('When compiling files', () => {
   });
 
   it('should replace matching imports', () => {
-    expect(modules[0]).toContain("__non_webpack_require__('https://domain.tld/user.js');");
+    expect(modules[0]).toContain("import(/* webpackIgnore: true */'https://domain.tld/user.js')");
   });
 
   it('should not touch other modules', () => {
-    expect(modules[1]).not.toContain('__non_webpack_require__');
+    expect(modules[1]).not.toContain('http');
+  });
+});
+
+describe('when trying regular import', () => {
+  let error;
+  beforeEach(async () => {
+    error = undefined;
+    try {
+      await compiler('../fixtures/regularImport.js', {
+        imports: {
+          user: 'https://domain.tld/user.js',
+        },
+      });
+    } catch (e) {
+      [error] = e;
+    }
+  });
+  it('should write expected message', () => {
+    expect(error.message).toContain('Error: Only dynamic import supported when trying to rewrite (import { logout } from \'user\';). Please see webpack-import-maps-loader/README.md');
   });
 });
