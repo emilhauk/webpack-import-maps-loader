@@ -1,6 +1,6 @@
 {
   "name": "webpack-import-maps-loader",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Webpack loader for import maps",
   "type": "module",
   "main": "./src/loader.cjs",
