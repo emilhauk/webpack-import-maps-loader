@@ -22,6 +22,37 @@ describe('When compiling files', () => {
   });
 });
 
+describe('when finding multiple imports of same package in same file', () => {
+  let modules;
+  beforeEach(async () => {
+    modules = await compiler('../fixtures/multiple-imports-in-same-file.js', {
+      imports: {
+        user: 'https://domain.tld/user.js',
+      },
+    }).then((t) => t.toJson({ source: true }).modules.map((m) => m.source).filter((f) => !!f));
+  });
+
+  it('should replace matching imports', () => {
+    expect(modules[0]).toContain("import(/* webpackIgnore: true */'https://domain.tld/user.js')");
+  });
+});
+
+describe('when finding multiple imports of same package across multiple files', () => {
+  let modules;
+  beforeEach(async () => {
+    modules = await compiler('../fixtures/multiple-imports-across-multiple-files.js', {
+      imports: {
+        user: 'https://domain.tld/user.js',
+      },
+    }).then((t) => t.toJson({ source: true }).modules.map((m) => m.source).filter((f) => !!f));
+  });
+
+  it('should replace matching imports', () => {
+    expect(modules[0]).toContain("import(/* webpackIgnore: true */'https://domain.tld/user.js')");
+    expect(modules[1]).toContain("import(/* webpackIgnore: true */'https://domain.tld/user.js')");
+  });
+});
+
 describe('when trying regular import', () => {
   let error;
   beforeEach(async () => {

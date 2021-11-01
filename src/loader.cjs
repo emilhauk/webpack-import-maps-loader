@@ -1,12 +1,12 @@
 const searchAndReplaceRules = (key, value) => [
   {
-    regexp: new RegExp(`^\\s*import\\s+(.+?)\\s+from\\s+['"]${key}.+$`, 'm'),
+    regexp: new RegExp(`^\\s*import\\s+(.+?)\\s+from\\s+['"]${key}.+$`, 'mg'),
   },
   {
-    regexp: new RegExp(`^\\s*const\\s+(.+?)\\s+=\\s+require\\(\\s+['"]${key}.+$`, 'm'),
+    regexp: new RegExp(`^\\s*const\\s+(.+?)\\s+=\\s+require\\(\\s+['"]${key}.+$`, 'mg'),
   },
   {
-    regexp: new RegExp(`import\\(['"]${key}['"]\\)`),
+    regexp: new RegExp(`import\\(['"]${key}['"]\\)`, 'g'),
     string: `import(/* webpackIgnore: true */'${value}')`,
   },
 ];
@@ -21,6 +21,7 @@ function ImportMapsLoader(source) {
           if(replacement) {
             throw new Error(`Only dynamic import supported when trying to rewrite (${replacement[0]}). Please see webpack-import-maps-loader/README.md`);
           }
+          return s;
         }
         return s.replace(replacer.regexp, replacer.string, src);
       }, src), source);
